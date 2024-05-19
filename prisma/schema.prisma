@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model producto {
+  producto_id             Int      @id @default(autoincrement())
+  producto_nombre         String   @db.VarChar(100)
+  producto_precio         Decimal  @db.Decimal(10, 2)
+  producto_fecha_creacion DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
+  producto_descripcion    String?
+  producto_imagen         String?
+}
