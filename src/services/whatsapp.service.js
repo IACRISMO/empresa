@@ -98,7 +98,7 @@ function sendMessageListWhatsap(txtResponse , number){
 
     const options = {
         hostname: 'graph.facebook.com',
-        path: '/v18.0/318584924670058/messages',
+        path: '/v19.0/318584924670058/messages',
         method: 'POST',
         body: data,
         headers: {
