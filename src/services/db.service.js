@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 async function getAllProducts() {
     return await prisma.producto.findMany();
 };
-s
+
 // Obtenemos productos por id
 async function getProductById(id) {
     return await prisma.producto.findUnique({

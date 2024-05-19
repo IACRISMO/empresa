@@ -23,7 +23,6 @@ const verifyToken = (req , res) => {
 };
 
 const ReceiveMessage = (req , res) => {
-    // console.log('hola');
     try {
         var entry = req.body['entry'][0];
         var changes = entry['changes'][0];
@@ -32,13 +31,8 @@ const ReceiveMessage = (req , res) => {
 
         if(typeof messageObject !== 'undefined'){
             var messages = messageObject[0];
-          
             var text = GetTextUser(messages);
             var number = messages['from'];
-            // console.log(messages);
-            // myConsole.log(messageObject);
-            // console.log(text);
-
             // processMessage.process(text, number , 'Gemini');
             // whatsappService.sendMessageWhatsap("El usuario dijo : "+text, number);
             whatsappService.sendMessageListWhatsap("El usuario dijo : "+text, number);
