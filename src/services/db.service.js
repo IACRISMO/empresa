@@ -18,7 +18,10 @@ async function createClient(cliente) {
 
 // obtenemos cliente por numero de telefono
 async function getClientByPhone(cliente_telefono) {
-    return await prisma.cliente.findUnique({
+    
+    const prisma_ = new PrismaClient();
+
+    return await prisma_.cliente.findUnique({
         where: {
             cliente_telefono: cliente_telefono,
         },
