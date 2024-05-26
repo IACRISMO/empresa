@@ -3,6 +3,28 @@ const { PrismaClient} = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
+// creamos cliente en bd
+async function createClient(cliente) {
+    return await prisma.cliente.create({
+        data: {
+            cliente_dni: cliente?.cliente_dni,
+            cliente_nombre: cliente?.cliente_nombre,
+            cliente_apellido: cliente?.cliente_apellido,
+            cliente_telefono: cliente?.cliente_telefono,
+            cliente_email: cliente?.cliente_email,
+        },
+    });
+}
+
+// obtenemos cliente por numero de telefono
+async function getClientByPhone(cliente_telefono) {
+    return await prisma.cliente.findUnique({
+        where: {
+            cliente_telefono: cliente_telefono,
+        },
+    });
+};
+
 // obtenemos cliente por dni
 async function getClientByDni(cliente_dni) {
     return await prisma.cliente.findUnique({
@@ -44,5 +66,7 @@ async function getProductById(id) {
 module.exports = {
     getProductById,
     getAllProducts,
-    getClientByDni
+    getClientByDni,
+    createClient,
+    getClientByPhone
 };
