@@ -22,7 +22,7 @@ const verifyToken = (req , res) => {
 
 };
 
-const ReceiveMessage = (req , res) => {
+const  ReceiveMessage = async (req , res) => {
     try {
         // console.log(req);
         var entry = req.body['entry'][0];
@@ -38,7 +38,7 @@ const ReceiveMessage = (req , res) => {
 
             // validamos si me cliente existe en bd, si existe le mandamos listado de servicios
             // si no existe le mandamos mensaje de bienvenida
-            processMessageService.processByCliente(text, number , 'Gemini');
+            await processMessageService.processByCliente(text, number , 'Gemini');
             // whatsappService.sendMessageWhatsap("El usuario dijo : "+text, number);
             // whatsappService.sendMessageListWhatsap("El usuario dijo : "+text, number);
         };
