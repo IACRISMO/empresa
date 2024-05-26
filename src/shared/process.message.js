@@ -21,7 +21,7 @@ async function processByCliente(text, number , ia = 'Gemini') {
     };
 
     response = response ? response : "No se pudo obtener respuesta , vuelva a intentarlo";
-   
+    console.log('cliente',cliente);
     if(cliente){
         whatsappService.sendMessageListWhatsap(response, number);
     }else{
