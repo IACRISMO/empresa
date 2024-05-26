@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 
 // Obtenemos todos los clientes
 async function getAllClients() {
-    return await prisma.cliente.findMany();
+    return await await prisma.$queryRaw`SELECT * FROM cliente`;
+    // return await prisma.cliente.findMany();
 }
 
 // creamos cliente en bd
