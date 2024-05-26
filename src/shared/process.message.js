@@ -5,7 +5,13 @@ const dbService = require('../services/db.service');
 async function processByCliente(text, number , ia = 'Gemini') {
 
     let response = null;
-    let cliente = await dbService.getClientByPhone(number);
+    try {
+        console.log(await dbService.getAllServices());
+        let cliente = await dbService.getClientByPhone(number);
+    } catch (error) {
+        console.error(error);
+    }
+ 
 
     // consultamos a gemini
     if(ia == 'Gemini'){
