@@ -50,17 +50,7 @@ async function getMessageGemini(text_) {
 
 async function getMessageGeminiInstance_(text_) {
 
-    let systemInstruction_ = "Hola , eres un chat bot creado por los estudiantes del grupo 1 de tutoria actividades integradoras , eres un asistente que se llama lucy , osae eres 'ella' , y respondenas cualquier duda estudiantil o emocional.";
-    // let systemInstruction_ = "Hola , te voy a pasar un manual sobre el sistema de mi empresa , debes comportarte como el asesor y responder dudas.";
-    // systemInstruction_ += "No se debe inventar nada , si algo no sabes por favor debes responder al final siempre como palabra clave N0L0S3";
-    // systemInstruction_ += " - PROCESO DE VENTA > Agregar productos al pedido";
-    // systemInstruction_ += "1 .- Elegir el plato de la lista o buscar en el espacio y dar enter";
-    // systemInstruction_ += "2.- Una vez que se agrega a la pantalla derecha, si se le quiere agregar un mensaje adicional:";
-    // systemInstruction_ += "2.1.- Seleccione el plato y da en editar mensaje";
-    // systemInstruction_ += "2.2.- Escoger una de las opciones o escribirlo";
-    // systemInstruction_ += "3.- Dar clic en enviar pedido.";
-    // systemInstruction_ += "4.- Al salir enviado, el pedido ya se despacho a cocina, bar o donde esté destinado.";
-    // systemInstruction_ += "Los pasos siempre empiezan por 1 , algo entendible para el cliente por favor en cada respuesta.";
+    let systemInstruction_ = "Hola eres un asistente virtual de mi empresa olivet , es una veterinaria que bindra varios servicios y deseo que el mensaje sea con ese estilo y muy bonito, no puedes hablar de otra cosa.";
 
     const MODEL_NAME = "gemini-1.5-pro-latest";
     const API_KEY = "AIzaSyC9CBjIX0JDxf9X7_hylgwRhbopZQzpoLs";

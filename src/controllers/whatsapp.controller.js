@@ -2,6 +2,7 @@ const fs = require('fs');
 const myConsole = new console.Console(fs.createWriteStream('./logswpp.txt'));
 const whatsappService = require('../services/whatsapp.service');
 const processMessage = require('../shared/process.message');
+const getClientByDni = require('../services/db.service');
 
 const verifyToken = (req , res) => {
 
@@ -24,6 +25,7 @@ const verifyToken = (req , res) => {
 
 const ReceiveMessage = (req , res) => {
     try {
+        console.log(req);
         var entry = req.body['entry'][0];
         var changes = entry['changes'][0];
         var value = changes['value'];
@@ -34,9 +36,13 @@ const ReceiveMessage = (req , res) => {
             console.log(messages);
             var text = GetTextUser(messages);
             var number = messages['from'];
-            // processMessage.process(text, number , 'Gemini');
+
+            // validamos si me cliente existe en bd, si existe le mandamos listado de servicios
+            // si no existe le mandamos mensaje de bienvenida
+            var cliente = getClientByDni(number);
+            processMessage.process(text, number , 'Gemini' ,cliente);
             // whatsappService.sendMessageWhatsap("El usuario dijo : "+text, number);
-            whatsappService.sendMessageListWhatsap("El usuario dijo : "+text, number);
+            // whatsappService.sendMessageListWhatsap("El usuario dijo : "+text, number);
         };
        
 
