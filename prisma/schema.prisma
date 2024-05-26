@@ -34,7 +34,7 @@ model cliente {
   cliente_dni           Int?
   cliente_direccion     String?        @db.VarChar(255)
   cliente_fechacreacion DateTime?      @db.Date
-  cliente_telefono      String?        @db.VarChar(9)
+  cliente_telefono      String?        @db.VarChar(15)
   conversacion          conversacion[]
 }
 
