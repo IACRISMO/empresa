@@ -26,7 +26,7 @@ async function processByCliente(text, number , ia = 'Gemini') {
         whatsappService.sendMessageListWhatsap(response, number);
     }else{
         // Iniciamos creando nuestro cliente
-        await createClient({cliente_telefono: number});
+        await dbService.createClient({cliente_telefono: number});
         whatsappService.sendMessageWhatsap(response, number);
     };
 
