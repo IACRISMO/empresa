@@ -23,11 +23,20 @@ async function createClient(cliente) {
 
 // obtenemos cliente por numero de telefono
 async function getClientByPhone(cliente_telefono) {
-    return  await prisma.cliente.findFirst({
-        where: {
-          cliente_telefono: cliente_telefono
-        }
-      });
+    console.log('Buscando cliente con teléfono:', cliente_telefono);
+    try {
+        const cliente = await prisma.cliente.findFirst({
+            where: {
+                cliente_telefono: cliente_telefono
+            }
+        });
+        console.log('Cliente encontrado:', cliente);
+        return cliente;
+    } catch (error) {
+        console.error('Error al buscar cliente por teléfono:', error);
+        // throw error;
+        return null;
+    }
 };
 
 // obtenemos cliente por dni
