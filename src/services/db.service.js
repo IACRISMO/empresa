@@ -5,8 +5,22 @@ const prisma = new PrismaClient();
 
 // Obtenemos todos los clientes
 async function getAllClients() {
-    return await prisma.$queryRaw`SELECT * FROM cliente`;
+    // return await prisma.$queryRaw`SELECT * FROM cliente`;
     // return await prisma.cliente.findMany();
+    return await prisma.cliente.findMany({
+        select: {
+          cliente_id: true,
+          cliente_nombre: true,
+          cliente_apellidos: true,
+          cliente_dni: true,
+          cliente_direccion: true,
+          cliente_fechacreacion: true,
+          cliente_telefono: true,
+          conversacion: true,
+        },
+      });
+    //   console.log(clientes);
+      
 }
 
 // creamos cliente en bd
@@ -27,6 +41,16 @@ async function getClientByPhone(cliente_telefono) {
     console.log('Buscando cliente con teléfono:', cliente_telefono);
     try {
         const cliente = await prisma.cliente.findFirst({
+            select: {
+                cliente_id: true,
+                cliente_nombre: true,
+                cliente_apellidos: true,
+                cliente_dni: true,
+                cliente_direccion: true,
+                cliente_fechacreacion: true,
+                cliente_telefono: true,
+                conversacion: true,
+            },
             where: {
                 cliente_telefono: '912345678'
             }
