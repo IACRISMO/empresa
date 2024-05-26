@@ -27,7 +27,7 @@ async function getClientByPhone(cliente_telefono) {
     try {
         const cliente = await prisma.cliente.findFirst({
             where: {
-                cliente_telefono: cliente_telefono
+                cliente_telefono: '912345678'
             }
         });
         console.log('Cliente encontrado:', cliente);
