@@ -74,5 +74,6 @@ module.exports = {
     getClientByDni,
     createClient,
     getClientByPhone,
-    getAllServices
+    getAllServices,
+    getAllClients
 };
