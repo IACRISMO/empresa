@@ -50,7 +50,7 @@ async function getClientByPhone(cliente_telefono) {
         //         cliente_telefono: '912345678'
         //     }
         // });
-        // console.log('respuesta del query:', cliente);
+        console.log('respuesta del query:', cliente);
         return cliente && cliente.length > 0 ? cliente[0] : null;
     } catch (error) {
         console.error('Error al buscar cliente por teléfono:', error);
