@@ -40,11 +40,20 @@ function sendMessageWhatsap(txtResponse , number){
 
 };
 
-async function sendMessageListWhatsap(txtResponse , number , type = 'servicios'){
+async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'){
 
     let vector = [];
-    if(type == 'servicios'){
-        vector = await dbService.getAllServices();
+    if(type == 'Categorias'){
+        vector = await dbService.getAllCategories();
+
+        // recorro el vector y lo parseo para wpp asi id y title
+        vector = vector.map((item) => {
+            return {
+                id: item.categoria_id,
+                title: item.categoria_nombre,
+                description: ""
+            };
+        });
     };
 
     const data = JSON.stringify({
@@ -56,7 +65,7 @@ async function sendMessageListWhatsap(txtResponse , number , type = 'servicios')
             type: "list",
             header: {
                 type: "text",
-                text: "Servicios de Polivet"
+                text: "Categorias de Polivet"
             },
             body: {
                 text: "Por favor selecciona el servicio que deseas."
@@ -65,12 +74,17 @@ async function sendMessageListWhatsap(txtResponse , number , type = 'servicios')
                 text: "Gracias por elegir Polivet."
             },
             action: {
-                button: "Servicios",
+                button: "Categorias",
                 sections: [
                     {
                         "title": type.toUpperCase(),
                         "rows": vector
                     },
+                    // {
+                    //     "id": "<LIST_SECTION_1_ROW_1_ID>",
+                    //     "title": "<SECTION_1_ROW_1_TITLE>",
+                    //     "description": "<SECTION_1_ROW_1_DESC>"
+                    // },
                 ]
             }
         }

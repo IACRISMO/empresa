@@ -161,6 +161,13 @@ async function getConversationsByClientId(clienteId) {
     });
 };
 
+/* CATEGORIAS */
+
+// Obtenemos todas las categorias
+async function getAllCategories() {
+    return await prisma.categoria.findMany();
+};
+
 
 
 
@@ -173,5 +180,6 @@ module.exports = {
     getAllServices,
     getAllClients,
     createConversation,
-    updateClient
+    updateClient,
+    getAllCategories
 };
