@@ -56,7 +56,10 @@ async function processByCliente(text, number , ia = 'Gemini') {
             };
         };
 
+        // guardamos la conversacion
         await dbService.createConversation({ clienteId: cliente.cliente_id , conversacion_mensaje: text});
+
+        // enviamos mensaje
         if(procesoRegistro)  whatsappService.sendMessageWhatsap(response, number);
         else whatsappService.sendMessageListWhatsap(response, number);
 
