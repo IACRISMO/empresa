@@ -101,7 +101,7 @@ async function getProductById(id) {
 // Creamos conversacion
 async function createConversation(conversacion) {
     // creo con query directa
-    return await prisma.$queryRaw`INSERT INTO conversacion (cliente_id,conversacion_fechacreacion,conversacion_mensaje) VALUES (${conversacion?.clienteId}, ${new Date()}, ${conversacion?.mensaje})`;
+    return await prisma.$queryRaw`INSERT INTO conversacion (cliente_id,conversacion_fechacreacion,conversacion_mensaje) VALUES (${conversacion?.clienteId}, ${new Date()}, ${conversacion?.conversacion_mensaje})`;
 
     // creo con prisma
     // return await prisma.conversacion.create({
