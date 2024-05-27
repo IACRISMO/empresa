@@ -39,7 +39,17 @@ async function updateClient(cliente_id, cliente) {
 // creamos cliente en bd
 async function createClient(cliente) {
     // creo con query directa
-    return await prisma.$queryRaw`INSERT INTO cliente (cliente_nombre, cliente_apellidos,cliente_dni,cliente_fechacreacion, cliente_telefono) VALUES (${cliente?.cliente_nombre}, ${cliente?.cliente_apellido},${cliente?.cliente_dni},${new Date()},${cliente?.cliente_telefono})`;
+    await prisma.$queryRaw`INSERT INTO cliente (cliente_nombre, cliente_apellidos,cliente_dni,cliente_fechacreacion, cliente_telefono) VALUES (${cliente?.cliente_nombre}, ${cliente?.cliente_apellido},${cliente?.cliente_dni},${new Date()},${cliente?.cliente_telefono})`;
+
+     // Obtener el ID del cliente recién insertado
+    const result = await prisma.$queryRaw`
+        SELECT cliente_id 
+        FROM cliente 
+        ORDER BY cliente_fechacreacion DESC
+        LIMIT 1
+    `;
+
+    return result[0];
     
     // creo con prisma
     // return await prisma.cliente.create({
