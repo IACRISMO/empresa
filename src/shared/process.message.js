@@ -30,11 +30,13 @@ async function processByCliente(text, number , ia = 'Gemini') {
 
     response = response ? response : "No se pudo obtener respuesta , vuelva a intentarlo";
     // console.log('cliente',cliente);
-    if(!cliente || !cliente.length){
+    if(cliente){
+        await dbService.createConversation({ clienteId: cliente.cliente_id , conversacion_mensaje: text,});
         whatsappService.sendMessageListWhatsap(response, number);
     }else{
         // Iniciamos creando nuestro cliente
-        await dbService.createClient({cliente_telefono: number});
+        cliente = await dbService.createClient({cliente_telefono: number});
+        await dbService.createConversation({ clienteId: cliente.cliente_id , conversacion_mensaje: text,});
         whatsappService.sendMessageWhatsap(response, number);
     };
 

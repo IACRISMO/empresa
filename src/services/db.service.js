@@ -50,8 +50,8 @@ async function getClientByPhone(cliente_telefono) {
         //         cliente_telefono: '912345678'
         //     }
         // });
-        console.log('respuesta del query:', cliente);
-        return cliente;
+        // console.log('respuesta del query:', cliente);
+        return cliente && cliente.length > 0 ? cliente[0] : null;
     } catch (error) {
         console.error('Error al buscar cliente por teléfono:', error);
         // throw error;
@@ -96,6 +96,51 @@ async function getProductById(id) {
     });
 };
 
+/* CONVERSACION */
+
+// Creamos conversacion
+async function createConversation(conversacion) {
+    // creo con query directa
+    return await prisma.$queryRaw`INSERT INTO conversacion (cliente_id,conversacion_fechacreacion,conversacion_mensaje) VALUES (${conversacion?.clienteId}, ${new Date()}, ${conversacion?.mensaje})`;
+
+    // creo con prisma
+    // return await prisma.conversacion.create({
+    //     data: {
+    //         clienteId: conversacion?.clienteId,
+    //         productoId: conversacion?.productoId,
+    //         fecha: conversacion?.fecha,
+    //         hora: conversacion?.hora,
+    //         estado: conversacion?.estado,
+    //     },
+    // });
+};
+
+
+// Obtenemos conversacion por id
+async function getConversationById(id) {
+    return await prisma.conversacion.findUnique({
+        where: {
+            id: parseInt(id),
+        },
+    });
+};
+
+// Obtenemos todas las conversaciones
+async function getAllConversations() {
+    return await prisma.conversacion.findMany();
+};
+
+// Obtenemos conversaciones por clienteId
+async function getConversationsByClientId(clienteId) {
+    return await prisma.conversacion.findMany({
+        where: {
+            clienteId: parseInt(clienteId),
+        },
+    });
+};
+
+
+
 
 module.exports = {
     getProductById,
@@ -104,5 +149,6 @@ module.exports = {
     createClient,
     getClientByPhone,
     getAllServices,
-    getAllClients
+    getAllClients,
+    createConversation
 };
