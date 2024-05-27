@@ -21,7 +21,20 @@ async function getAllClients() {
     //   });
     //   console.log(clientes);
       
-}
+};
+
+// Actualizamos cliente
+async function updateClient(cliente_id, cliente) {
+    // Actualizo con query directa
+    return await prisma.$queryRaw`UPDATE cliente SET cliente_nombre = ${cliente?.cliente_nombre}, cliente_apellidos = ${cliente?.cliente_apellido}, cliente_dni = ${cliente?.cliente_dni}, cliente_telefono = ${cliente?.cliente_telefono} WHERE cliente_id = ${cliente_id}`;
+
+    // return await prisma.cliente.update({
+    //     where: {
+    //         cliente_id: cliente_id,
+    //     },
+    //     data: cliente,
+    // });
+};
 
 // creamos cliente en bd
 async function createClient(cliente) {
@@ -38,7 +51,7 @@ async function createClient(cliente) {
     //         cliente_email: cliente?.cliente_email,
     //     },
     // });
-}
+};
 
 // obtenemos cliente por numero de telefono
 async function getClientByPhone(cliente_telefono) {
@@ -150,5 +163,6 @@ module.exports = {
     getClientByPhone,
     getAllServices,
     getAllClients,
-    createConversation
+    createConversation,
+    updateClient
 };

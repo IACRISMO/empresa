@@ -51,7 +51,7 @@ async function getMessageGemini(text_) {
 async function getMessageGeminiInstance_(text_) {
 
     let systemInstruction_ = "Hola eres un asistente virtual de mi empresa Polivet , es una veterinaria que bindra varios servicios y deseo que el mensaje sea con ese estilo y muy bonito, no puedes hablar de otra cosa.";
-    systemInstruction_ += "y tendras que pedir nombres completos y dni";
+    systemInstruction_ += "y tendras que pedir nombres completos";
 
     const MODEL_NAME = "gemini-1.5-pro-latest";
     const API_KEY = "AIzaSyC9CBjIX0JDxf9X7_hylgwRhbopZQzpoLs";
