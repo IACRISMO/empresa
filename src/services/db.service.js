@@ -43,7 +43,7 @@ async function createClient(cliente) {
 
      // Obtener el ID del cliente recién insertado
     const result = await prisma.$queryRaw`
-        SELECT cliente_id 
+        SELECT * 
         FROM cliente 
         ORDER BY cliente_fechacreacion DESC
         LIMIT 1
