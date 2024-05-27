@@ -20,7 +20,6 @@ model cliente {
   cliente_nombre        String?        @db.VarChar(100)
   cliente_apellidos     String?        @db.VarChar(100)
   cliente_dni           BigInt?
-  cliente_direccion     String?        @db.VarChar(255)
   cliente_fechacreacion DateTime?      @db.Date
   cliente_telefono      String?        @db.VarChar(15)
   conversacion          conversacion[]

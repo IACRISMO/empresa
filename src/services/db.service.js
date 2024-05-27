@@ -1,5 +1,5 @@
 // USAMOS ORM PRISMA CON POSTGRESQL
-const { PrismaClient} = require('@prisma/client');
+const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
