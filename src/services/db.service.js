@@ -14,9 +14,9 @@ async function getAllClients() {
           cliente_nombre: true,
           cliente_apellidos: true,
           cliente_dni: true,
-          cliente_direccion: true,
           cliente_fechacreacion: true,
           cliente_telefono: true,
+          
         },
       });
     //   console.log(clientes);
