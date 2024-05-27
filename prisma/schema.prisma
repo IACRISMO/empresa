@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categoria {
+  categoria_id            Int        @id @default(autoincrement())
+  categoria_nombre        String?    @db.VarChar(100)
+  categoria_fechacreacion DateTime?  @db.Date
+  producto                producto[]
+  servicio                servicio[]
+}
+
+model cliente {
+  cliente_id            BigInt         @id @default(autoincrement())
+  cliente_nombre        String?        @db.VarChar(100)
+  cliente_apellidos     String?        @db.VarChar(100)
+  cliente_dni           BigInt?
+  cliente_direccion     String?        @db.VarChar(255)
+  cliente_fechacreacion DateTime?      @db.Date
+  cliente_telefono      String?        @db.VarChar(15)
+  conversacion          conversacion[]
+}
+
+model conversacion {
+  id                         Int       @id @default(autoincrement())
+  cliente_id                 BigInt?
+  conversacion_fechacreacion DateTime? @db.Date
+  cliente                    cliente?  @relation(fields: [cliente_id], references: [cliente_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model producto {
+  producto_id            Int        @id @default(autoincrement())
+  producto_nombre        String?    @db.VarChar(100)
+  categoria_id           Int?
+  producto_precio        Decimal?   @db.Decimal(10, 2)
+  producto_descripcion   String?    @db.VarChar(255)
+  producto_stock         Int?
+  producto_fechacreacion DateTime?  @db.Date
+  fecha_de_vencimiento   DateTime?  @db.Date
+  categoria              categoria? @relation(fields: [categoria_id], references: [categoria_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model servicio {
+  servicio_id            Int        @id @default(autoincrement())
+  servicio_nombre        String?    @db.VarChar(100)
+  categoria_id           Int?
+  servicio_fechacreacion DateTime?  @db.Date
+  categoria              categoria? @relation(fields: [categoria_id], references: [categoria_id], onDelete: NoAction, onUpdate: NoAction)
+}
