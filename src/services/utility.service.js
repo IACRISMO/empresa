@@ -5,7 +5,20 @@ function esNombreValido(nombre) {
   const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
 
   // Lista de malas palabras
-  const malasPalabras = ["mala1", "mala2", "mala3"];  // Sustituye con la lista real
+  const malasPalabras = ["huachafo", "pata", "chamba", "cholo", "causa", "jato",
+   "floro", "fercho", "cacharro", "zampón", "chela", "pucha", "cachanga",
+    "chibolo", "achorado", "huevón", "huasca", "joroba", "pichanga", "calato", 
+    "trome", "cañazo", "jarana", "caleta", "tombo", "manya", "fugaz", "mostro",
+    "caer", "jamear", "pisco", "mostasero", "yara", "chacra", "sapear", "lorna",
+    "plop", "yanqui", "combi", "bamba", "palteado", "jorobar", "paltas", "flaca",
+    "churre", "putear", "conchudo", "jalador", "wawita", "jirón", "broder", "fiesta",
+    "chongo", "huaracazo", "charapa", "pendejo", "cachina", "calabaza", "pegalón",
+    "paiche", "bacán", "cabro", "cancha", "carajo", "choro", "pana", "guachimán", 
+    "yuca", "melcocha", "pitri mitri", "fulano", "huaco", "zapatilla", "mote", 
+    "huachafería", "jeropa", "tocayo", "tarumba", "jachudo", "guachimanear", 
+    "tambo", "changa", "huaralino", "chifar", "pituco", "chancaca", "salud", 
+    "zafacasa", "mañas", "fierro", "huaranga", "zaraza", "pato", "mierda",
+    "zorra", "paletear", "chato", "charapa"];  // Sustituye con la lista real
 
   // Primero, validamos que el nombre cumpla con la expresión regular
   if (!regex.test(nombre)) {
