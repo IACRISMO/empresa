@@ -1,4 +1,5 @@
 const htpps = require('https');
+const dbService = require('../services/db.service');
 
 function sendMessageWhatsap(txtResponse , number){
 
@@ -39,7 +40,12 @@ function sendMessageWhatsap(txtResponse , number){
 
 };
 
-function sendMessageListWhatsap(txtResponse , number){
+async function sendMessageListWhatsap(txtResponse , number , type = 'servicios'){
+
+    let vector = [];
+    if(type == 'servicios'){
+        vector = await dbService.getAllServices();
+    };
 
     const data = JSON.stringify({
         messaging_product: "whatsapp",
@@ -50,47 +56,21 @@ function sendMessageListWhatsap(txtResponse , number){
             type: "list",
             header: {
                 type: "text",
-                text: "EL PEPE HEADERS"
+                text: "Servicios de Polivet"
             },
             body: {
-                text: "EL PEPE BODY"
+                text: "Por favor selecciona el servicio que deseas."
             },
             footer: {
-                text: "EL PEPE FOOTER"
+                text: "Gracias por elegir Polivet."
             },
             action: {
-                button: "<BUTTON_TEXT>",
+                button: "Servicios",
                 sections: [
                     {
-                        "title": "<LIST_SECTION_1_TITLE>",
-                        "rows": [
-                            {
-                                "id": "<LIST_SECTION_1_ROW_1_ID>",
-                                "title": "<SECTION_1_ROW_1_TITLE>",
-                                "description": "<SECTION_1_ROW_1_DESC>"
-                            },
-                            {
-                                "id": "<LIST_SECTION_1_ROW_2_ID>",
-                                "title": "<SECTION_1_ROW_2_TITLE>",
-                                "description": "<SECTION_1_ROW_2_DESC>"
-                            }
-                        ]
+                        "title": type.toUpperCase(),
+                        "rows": vector
                     },
-                    {
-                        "title": "<LIST_SECTION_2_TITLE>",
-                        "rows": [
-                            {
-                                "id": "<LIST_SECTION_2_ROW_1_ID>",
-                                "title": "<SECTION_2_ROW_1_TITLE>",
-                                "description": "<SECTION_2_ROW_1_DESC>"
-                            },
-                            {
-                                "id": "<LIST_SECTION_2_ROW_2_ID>",
-                                "title": "<SECTION_2_ROW_2_TITLE>",
-                                "description": "<SECTION_2_ROW_2_DESC>"
-                            }
-                        ]
-                    }
                 ]
             }
         }

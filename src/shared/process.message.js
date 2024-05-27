@@ -57,7 +57,7 @@ async function processByCliente(text, number , ia = 'Gemini') {
         };
 
         await dbService.createConversation({ clienteId: cliente.cliente_id , conversacion_mensaje: text});
-        if(procesoRegistro) whatsappService.sendMessageWhatsap(response, number);
+        if(procesoRegistro)  whatsappService.sendMessageWhatsap(response, number);
         else whatsappService.sendMessageListWhatsap(response, number);
 
     }else{
