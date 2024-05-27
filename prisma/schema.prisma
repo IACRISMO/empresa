@@ -29,7 +29,7 @@ model conversacion {
   conversacion_id            Int       @id @default(autoincrement())
   cliente_id                 BigInt?
   conversacion_fechacreacion DateTime? @db.Date
-  conversacion_conversacion  String?
+  conversacion_mensaje       String?
   cliente                    cliente?  @relation(fields: [cliente_id], references: [cliente_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
