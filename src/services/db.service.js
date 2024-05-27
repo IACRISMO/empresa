@@ -128,7 +128,6 @@ async function createConversation(conversacion) {
     // });
 };
 
-
 // Obtenemos conversacion por id
 async function getConversationById(id) {
     return await prisma.conversacion.findUnique({
