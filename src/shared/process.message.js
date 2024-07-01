@@ -15,23 +15,9 @@ async function processByCliente(text, number , ia = 'Gemini') {
     } catch (error) {
         console.error(error);
     };
-
-    // consultamos a gemini
-    if(ia == 'Gemini'){
-        // response =  await chatGptService.getMessageGemini(text)
-        response = await chatGptService.getMessageGeminiInstance_(text);
-
-        response = response && response.includes('N0L0S3') ? "Este problema se le derivara a un desarrollador." : response;
-    };
-
-    // consultamos a gpt
-    if(ia == 'GPT'){
-        response = chatGptService.getMessageChatGPT(text)
-    };
-
-    response = response ? response : "No se pudo obtener respuesta , vuelva a intentarlo";
+    
+    // Seguimos el flujo de conversacion pedimos el nombre y luego dni
     if(cliente){
-        // Seguimos el flujo de conversacion pedimos el nombre y luego dni
 
         // validamos si el cliente ya tiene nombre
         if(!cliente.cliente_nombre){
@@ -67,6 +53,9 @@ async function processByCliente(text, number , ia = 'Gemini') {
 
     }else{
 
+        // Pedimos a ia que nos de un mensaje de bienvenida
+        response = await proccessWelcome(text, number , ia);
+
         // Iniciamos creando nuestro cliente
         cliente = await dbService.createClient({cliente_telefono: number});
         console.log('cliente creado:', cliente);
@@ -94,6 +83,27 @@ async function process(text, number , ia = 'Gemini') {
 
     whatsappService.sendMessageWhatsap(response, number);
     // whatsappService.sendMessageListWhatsap(response, number);
+};
+
+async function proccessWelcome(text, ia) {
+
+    const response = null;
+
+    // consultamos a gemini
+    if(ia == 'Gemini'){
+        // response =  await chatGptService.getMessageGemini(text)
+        response = await chatGptService.getMessageGeminiInstance_(text);
+
+        response = response && response.includes('N0L0S3') ? "Este problema se le derivara a un desarrollador." : response;
+    };
+
+    // consultamos a gpt
+    if(ia == 'GPT'){
+        response = chatGptService.getMessageChatGPT(text)
+    };
+
+    return response = response ? response : "No se pudo obtener respuesta , vuelva a intentarlo";
+
 };
 
 module.exports = {
