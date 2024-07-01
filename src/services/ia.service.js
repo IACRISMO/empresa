@@ -43,7 +43,7 @@ async function getMessageGemini(text_) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    console.log('respuesta gemini',text);
+    // console.log('respuesta gemini',text);
     return text;
     // return response.text();
 };
@@ -145,7 +145,7 @@ async function getMessageGeminiInstance_(text_) {
   
     const result = await chat.sendMessage(text_);
     const response = result.response;
-    console.log(response.text());
+    // console.log(response.text());
     return response.text();
 };
 

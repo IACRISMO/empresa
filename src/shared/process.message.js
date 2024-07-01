@@ -35,7 +35,7 @@ async function processByCliente(text, number , ia = 'Gemini') {
         if(!cliente.cliente_dni && cliente.cliente_nombre){
             procesoRegistro = true;
             if(utilityService.esDniValido(text)){
-                await dbService.updateClient(cliente.cliente_id, { ...cliente , cliente_dni: text});
+                await dbService.updateClient(cliente.cliente_id, { ...cliente , cliente_dni: text*1});
                 response = "¡Muchas gracias "+cliente.cliente_nombre+" , ahora puedo ayudarte con tu consulta , que tipo de servicio necesitas?.";
                 procesoRegistro_ = true;
             }else{

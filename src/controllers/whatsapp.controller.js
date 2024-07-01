@@ -24,7 +24,6 @@ const verifyToken = (req , res) => {
 
 const  ReceiveMessage = (req , res) => {
     try {
-        // console.log(req);
         var entry = req.body['entry'][0];
         var changes = entry['changes'][0];
         var value = changes['value'];
@@ -32,7 +31,6 @@ const  ReceiveMessage = (req , res) => {
 
         if(typeof messageObject !== 'undefined'){
             var messages = messageObject[0];
-            // console.log(messages);
             var text = GetTextUser(messages);
             var number = messages['from'];
 

@@ -33,7 +33,7 @@ function sendMessageWhatsap(txtResponse , number){
     });
 
     req.on('error', (error) => {
-        console.error(error);
+        // console.error(error);
     });
 
     req.write(data);
@@ -102,7 +102,7 @@ async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'
     });
 
     req.on('error', (error) => {
-        console.error(error);
+        // console.error(error);
     });
 
     req.write(data);
