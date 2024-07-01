@@ -34,10 +34,10 @@ async function processByCliente(text, number , ia = 'Gemini') {
         // validamos si el cliente ya tiene dni
         if(!cliente.cliente_dni && cliente.cliente_nombre){
             procesoRegistro = true;
-            procesoRegistro_ = true;
             if(utilityService.esDniValido(text)){
                 await dbService.updateClient(cliente.cliente_id, { ...cliente , cliente_dni: text});
                 response = "¡Muchas gracias "+cliente.cliente_nombre+" , ahora puedo ayudarte con tu consulta , que tipo de servicio necesitas?.";
+                procesoRegistro_ = true;
             }else{
                 response = "DNI invalido, por favor ingrese un DNI valido.";
             };
