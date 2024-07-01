@@ -10,7 +10,6 @@ async function processByCliente(text, number , ia = 'Gemini') {
     let procesoRegistro = false;
 
     try {
-        // console.log(await dbService.getAllClients());
         cliente = await dbService.getClientByPhone(number);
     } catch (error) {
         console.error(error);
@@ -102,7 +101,7 @@ async function proccessWelcome(text, ia) {
         response = chatGptService.getMessageChatGPT(text)
     };
 
-    return response = response ? response : "No se pudo obtener respuesta , vuelva a intentarlo";
+    return (response ? response : "No se pudo obtener respuesta , vuelva a intentarlo");
 
 };
 
