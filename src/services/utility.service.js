@@ -66,15 +66,113 @@ async function obtenerListadoCategoriasWPP() {
     return response;
 };
 
+// Función para obtener un listado de servicios
+async function obtenerListadoServiciosWPP(categoria_id) {
+    let vector = [];
+    let response = {
+        header_txt: 'Polivet',
+        body_txt: 'Por favor selecciona el servicio que deseas.',
+        footer_txt: 'Gracias por elegir Polivet.',
+        button_txt: 'Servicios',
+        list: []
+    };
+    // Obtenemos los servicios de la base de datos
+    vector = await dbService.getServicesByCategoryId(categoria_id);
+    // recorro el vector y lo parseo para wpp asi id y title
+    vector = vector.map((item) => {
+        return {
+            id: item.servicio_id,
+            title: item.servicio_nombre,
+            description: ""
+        };
+    });
+    response.list = vector;
+    return response;
+};
+
+// Función para obtener un listado de productos
+async function obtenerListadoProductosWPP(categoria_id) {
+    let vector = [];
+    let response = {
+        header_txt: 'Polivet',
+        body_txt: 'Por favor selecciona el producto que deseas.',
+        footer_txt: 'Gracias por elegir Polivet.',
+        button_txt: 'Productos',
+        list: []
+    };
+    // Obtenemos los productos de la base de datos
+    vector = await dbService.getProductsByCategoryId(categoria_id);
+    // recorro el vector y lo parseo para wpp asi id y title
+    vector = vector.map((item) => {
+        return {
+            id: item.producto_id,
+            title: item.producto_nombre,
+            description: ""
+        };
+    });
+    response.list = vector;
+    return response;
+};
+
+// Función para validar el mensaje del cliente y procesarlo
+async function procesarMensajeCliente(parseMessage, tipo_message) {
+
+    let response = {
+        error: false,
+        message: '',
+        servicioOrProducto: INSERT_SERVICIO,
+    };
+
+    if(tipo_message ===  INSERT_CATEGORIA){
+        if(parseMessage.typeMessage !== 'interactive'){
+            response.message = 'Por favor selecciona una categoria.';
+            response.error = true;
+        }else{
+            if(parseMessage.opcion.id.includes(['1','2','3','5'])){
+               response.servicioOrProducto = INSERT_PRODUCT
+            }else{
+               response.servicioOrProducto = INSERT_SERVICIO;
+            };
+        }
+    };
+
+    if(tipo_message ===  INSERT_SERVICIO){
+        if(parseMessage.typeMessage !== 'interactive'){
+            response.message = 'Por favor selecciona un servicio.';
+            response.error = true;
+        };
+    };
+
+
+    if(tipo_message ===  INSERT_PRODUCTO){
+        if(parseMessage.typeMessage !== 'interactive'){
+            response.message = 'Por favor selecciona un producto.';
+            response.error = true;
+        };
+    };
+
+    return response;
+};
+
+
 module.exports = {
     esNombreValido,
     esDniValido,
     obtenerListadoCategoriasWPP,
+    obtenerListadoServiciosWPP,
+    obtenerListadoProductosWPP,
+    procesarMensajeCliente,
     // Mensajes Predeterminados posibles
     MENSAJE_BIENVENIDA: '¿Que tipo de servicio necesitas?',
     MENSAJE_NOMBRE_INVALIDO: 'Nombre invalido, por favor ingrese un nombre valido.',
     MENSAJE_DNI_INVALIDO: 'DNI invalido, por favor ingrese un DNI valido.',
     MENSAJE_CONSULTA: 'Ahora puedo ayudarte con tu consulta, ¿qué tipo de servicio necesitas?',
+    // Tipo de mensajes insertados por sistema
+    INSERT_CATEGORIA: 'INSERT_CATEGORIA',
+    INSERT_SERVICIO: 'INSERT_SERVICIO',
+    INSERT_PRODUCTO: 'INSERT_PRODUCTO',
+    INSERT_PAGO: 'INSERT_PAGO',
+
     // Estados posibles de la conversación
     REGISTRO: 1,
     SERVICIO: 2,

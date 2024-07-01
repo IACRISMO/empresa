@@ -41,11 +41,19 @@ function sendMessageWhatsap(txtResponse , number){
 
 };
 
-async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'){
+async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias', categoria_id = null){
 
     let messageList = {};
     if(type == 'Categorias'){
         messageList = await utilityService.obtenerListadoCategoriasWPP();
+    };
+
+    if(type == 'Servicios'){
+        messageList = await utilityService.obtenerListadoServiciosWPP();
+    };
+
+    if(type == 'Productos'){
+        messageList = await utilityService.obtenerListadoProductosWPP();
     };
 
     const data = JSON.stringify({

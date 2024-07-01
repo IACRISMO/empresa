@@ -30,6 +30,10 @@ model conversacion {
   cliente_id                 BigInt?
   conversacion_fechacreacion DateTime? @db.Date
   conversacion_mensaje       String?
+  categoria_id               Int?
+  servicio_id                Int?
+  producto_id                Int?
+  conversacion_tipo          String?   @default("NULL")
   cliente                    cliente?  @relation(fields: [cliente_id], references: [cliente_id], onDelete: NoAction, onUpdate: NoAction)
 }
 

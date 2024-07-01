@@ -94,6 +94,18 @@ async function getAllServices() {
     return await prisma.servicio.findMany();
 };
 
+// Obtenemos servicios por categoria_id
+async function getServicesByCategoryId(categoria_id) {
+    let vector = await prisma.$queryRaw`SELECT * FROM servicio WHERE categoria_id = ${categoria_id} ORDER BY servicio_id ASC`;
+    return vector;
+};
+
+// Obtenemos productos por categoria_id
+async function getProductsByCategoryId(categoria_id) {
+    let vector = await prisma.$queryRaw`SELECT * FROM producto WHERE categoria_id = ${categoria_id} ORDER BY producto_id ASC`;
+    return vector;
+};
+
 // obtenemos productos por servicioId
 async function getProductsByServiceId(id) {
     return await prisma.producto.findMany({
@@ -159,6 +171,16 @@ async function getConversationsByClientId(clienteId) {
     });
 };
 
+// Obtenemos el ultimo tipo o estado de conversacion que tuvo el cliente
+async function getLastConversationByClientId(clienteId) {
+    let  response = null;
+    let vector = await prisma.$queryRaw`SELECT * FROM cliente WHERE cliente_id = ${clienteId} AND conversacion_tipo IS NOT NULL ORDER BY cliente_fechacreacion DESC LIMIT 1`;
+    if(vector && vector.length > 0){
+        response = vector[0];
+    };
+    return response;
+};
+
 /* CATEGORIAS */
 
 // Obtenemos todas las categorias
@@ -179,5 +201,8 @@ module.exports = {
     getAllClients,
     createConversation,
     updateClient,
-    getAllCategories
+    getAllCategories,
+    getLastConversationByClientId,
+    getServicesByCategoryId,
+    getProductsByCategoryId,
 };

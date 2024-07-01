@@ -31,15 +31,11 @@ const  ReceiveMessage = (req , res) => {
 
         if(typeof messageObject !== 'undefined'){
             var messages = messageObject[0];
-            console.log(messages);
-            var text = GetTextUser(messages);
+            // console.log(messages);
+            var parseMessage = GetTextUser(messages);
             var number = messages['from'];
 
-            // validamos si me cliente existe en bd, si existe le mandamos listado de servicios
-            // si no existe le mandamos mensaje de bienvenida
-            processMessageService.processByCliente(text, number , 'Gemini');
-            // whatsappService.sendMessageWhatsap("El usuario dijo : "+text, number);
-            // whatsappService.sendMessageListWhatsap("El usuario dijo : "+text, number);
+            processMessageService.processByCliente(parseMessage, number , 'Gemini');
         };
        
 
@@ -50,26 +46,33 @@ const  ReceiveMessage = (req , res) => {
     };
 
     function GetTextUser(messages) {
-        var text = "";
-        var typeMessage = messages['type'];
-        if(typeMessage == 'text'){
-            text = messages['text']['body'];    
-        }else if(typeMessage == 'interactive'){
+        let parseMessage = {
+            text: '',
+            opcion : { id: '', title: ''},
+            typeMessage
+        };
+        parseMessage.typeMessage = messages['type'];
+
+        if(parseMessage.typeMessage == 'text'){
+            parseMessage.text = messages['text']['body'];    
+        }else if(parseMessage.typeMessage == 'interactive'){
 
             var interactiveObj = messages['interactive'];
             var typeInteractive = interactiveObj['type'];
 
             if(typeInteractive == 'button_reply'){
-                text = interactiveObj['button_reply']['title'];
+                parseMessage.text = interactiveObj['button_reply']['title'];
+                parseMessage.opcion = interactiveObj['button_reply'];
             } else if(typeInteractive == "list_reply"){
-                text = interactiveObj['list_reply']['title'];
+                parseMessage.text = interactiveObj['list_reply']['title'];
+                parseMessage.opcion = interactiveObj['list_reply'];
             } else{   
                 myConsole.log('no se encontro el tipo de mensaje')
             };
 
         };
         
-        return text;
+        return parseMessage;
     };
 
     // res.send('hola recive')

@@ -3,13 +3,17 @@ const chatGptService = require('../services/ia.service');
 const dbService = require('../services/db.service');
 const utilityService = require('../services/utility.service');
 
-async function processByCliente(text, number , ia = 'Gemini') {
+async function processByCliente(parseMessage, number , ia = 'Gemini') {
 
     let response = null;
     let cliente = null;
     let procesoRegistro = false;
     let procesoRegistro_ = false;
-    let procesoConsulta = false;
+
+    // Obtenemos props del mensaje
+    let text = parseMessage.text;
+    let typeMessage = parseMessage.typeMessage;
+    let opcion = parseMessage.opcion;
 
     try {
         cliente = await dbService.getClientByPhone(number);
@@ -43,18 +47,99 @@ async function processByCliente(text, number , ia = 'Gemini') {
             };
         };
 
-        // guardamos la conversacion
-        await dbService.createConversation({ clienteId: cliente.cliente_id , conversacion_mensaje: text});
-
         // enviamos mensaje
         if(procesoRegistro){
+
             whatsappService.sendMessageWhatsap(response, number);
 
             // Si validamos todos los datos le enviamos el listado de categorias
-            if(procesoRegistro_)
-            whatsappService.sendMessageListWhatsap(response, number);
-        } 
-        else whatsappService.sendMessageListWhatsap(response, number);
+            if(procesoRegistro_){
+                whatsappService.sendMessageListWhatsap(response, number);
+                // guardamos tipo de la conversacion
+                await dbService.createConversation({ 
+                clienteId: cliente.cliente_id , 
+                conversacion_mensaje: text,
+                conversacion_tipo: utilityService.INSERT_CATEGORIA,
+                });
+            }else{
+                // guardamos la conversacion
+                await dbService.createConversation({ clienteId: cliente.cliente_id , conversacion_mensaje: text});
+            };
+           
+        }else {
+
+            // validamos tipo de conversacion por la ultima conversacion
+            let lastConvesation = await dbService.getLastConversationByClientId(cliente.cliente_id);
+            let respuesta = null;
+            let type = 'Categorias';
+
+            if(lastConvesation.conversacion_tipo == utilityService.INSERT_CATEGORIA){
+                // Validamos si el cliente selecciono una categoria
+                if(!lastConvesation.categoria_id){
+                    respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
+                    if(!respuesta.error){
+                        // guardamos la conversacion
+                        await dbService.createConversation({ 
+                            clienteId: cliente.cliente_id , 
+                            conversacion_mensaje: text,
+                            categoria_id: opcion.id,
+                            conversacion_tipo: respuesta.servicioOrProducto,
+                        });
+
+                        if(respuesta.servicioOrProducto == utilityService.INSERT_PRODUCTO){
+                            type = 'Productos';
+                        }else{
+                            type = 'Servicios';
+                        };
+                    }else{
+                        response = respuesta.message;
+                    };
+                    
+                };
+            };
+
+            // validamos si el cliente selecciono un servicio
+            if(lastConvesation.conversacion_tipo == utilityService.INSERT_SERVICIO){
+                // Validamos si el cliente selecciono un servicio
+                if(!lastConvesation.servicio_id){
+                    respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
+                    if(!respuesta.error){
+                        // guardamos la conversacion
+                        await dbService.createConversation({ 
+                            clienteId: cliente.cliente_id , 
+                            conversacion_mensaje: text,
+                            servicio_id: opcion.id,
+                            conversacion_tipo: utilityService.INSERT_PRODUCTO,
+                        });
+                    }else{
+                        response = respuesta.message;
+                    };
+
+                        
+                };
+            };
+
+            // validamos si el cliente selecciono un producto
+            if(lastConvesation.conversacion_tipo == utilityService.INSERT_PRODUCTO){
+                // Validamos si el cliente selecciono un producto
+                if(!lastConvesation.producto_id){
+                    respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
+                    if(!respuesta.error){
+                        // guardamos la conversacion
+                        await dbService.createConversation({ 
+                            clienteId: cliente.cliente_id , 
+                            conversacion_mensaje: text,
+                            producto_id: opcion.id,
+                            conversacion_tipo: utilityService.INSERT_PRODUCTO,
+                        });
+                    }else{
+                        response = respuesta.message;
+                    };
+                };
+            };
+            
+            whatsappService.sendMessageListWhatsap(response, number, type , opcion.id);
+        };
 
     }else{
 
