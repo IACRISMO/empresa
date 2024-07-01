@@ -1,4 +1,5 @@
-
+// Importamos el servicio de base de datos
+const dbService = require('../services/db.service');
 
 function esNombreValido(nombre) {
   // Expresión regular para validar nombres
@@ -41,7 +42,49 @@ function esDniValido(numero) {
     return regex.test(numero);
 };
 
+// Función para obtener un listado de categorías
+async function obtenerListadoCategoriasWPP() {
+    const vector = [];
+    const response = {
+        header_txt: 'Polivet',
+        body_txt: 'Por favor selecciona el servicio que deseas.',
+        footer_txt: 'Gracias por elegir Polivet.',
+        button_txt: 'Categorias',
+        list: []
+    };
+    // Obtenemos las categorías de la base de datos
+    vector = await dbService.getAllCategories();
+    // recorro el vector y lo parseo para wpp asi id y title
+    vector = vector.map((item) => {
+        return {
+            id: item.categoria_id,
+            title: item.categoria_nombre,
+            description: ""
+        };
+    });
+    response.list = vector;
+    return response;
+};
+
 module.exports = {
     esNombreValido,
-    esDniValido
+    esDniValido,
+    obtenerListadoCategoriasWPP
 };
+
+// Mensajes Predeterminados posibles
+module.exports = {
+    MENSAJE_BIENVENIDA: '¿Que tipo de servicio necesitas?',
+    MENSAJE_NOMBRE_INVALIDO: 'Nombre invalido, por favor ingrese un nombre valido.',
+    MENSAJE_DNI_INVALIDO: 'DNI invalido, por favor ingrese un DNI valido.',
+    MENSAJE_CONSULTA: 'Ahora puedo ayudarte con tu consulta, ¿qué tipo de servicio necesitas?'
+};
+
+// Estados posibles de la conversación
+module.exports = {
+    REGISTRO: 1,
+    SERVICIO: 2,
+    PRODUCTO : 3,
+    PAGO: 4,
+};
+

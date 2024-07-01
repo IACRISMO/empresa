@@ -10,12 +10,11 @@ async function processByCliente(text, number , ia = 'Gemini') {
     let procesoRegistro = false;
 
     try {
-        console.log(await dbService.getAllClients());
+        // console.log(await dbService.getAllClients());
         cliente = await dbService.getClientByPhone(number);
     } catch (error) {
         console.error(error);
     };
- 
 
     // consultamos a gemini
     if(ia == 'Gemini'){
@@ -50,7 +49,7 @@ async function processByCliente(text, number , ia = 'Gemini') {
             procesoRegistro = true;
             if(utilityService.esDniValido(text)){
                 await dbService.updateClient(cliente.cliente_id, { ...cliente , cliente_dni: text});
-                response = "¡Muchas gracias "+cliente.cliente_nombre+" , ahora puedo ayudarte con tu consulta!.";
+                response = "¡Muchas gracias "+cliente.cliente_nombre+" , ahora puedo ayudarte con tu consulta , que tipo de servicio necesitas?.";
             }else{
                 response = "DNI invalido, por favor ingrese un DNI valido.";
             };
@@ -60,7 +59,10 @@ async function processByCliente(text, number , ia = 'Gemini') {
         await dbService.createConversation({ clienteId: cliente.cliente_id , conversacion_mensaje: text});
 
         // enviamos mensaje
-        if(procesoRegistro)  whatsappService.sendMessageWhatsap(response, number);
+        if(procesoRegistro){
+            whatsappService.sendMessageWhatsap(response, number);
+            whatsappService.sendMessageListWhatsap(response, number);
+        } 
         else whatsappService.sendMessageListWhatsap(response, number);
 
     }else{

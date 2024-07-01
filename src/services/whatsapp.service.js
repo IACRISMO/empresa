@@ -1,5 +1,6 @@
 const htpps = require('https');
 const dbService = require('../services/db.service');
+const utilityService = require('../services/utility.service');
 
 function sendMessageWhatsap(txtResponse , number){
 
@@ -42,18 +43,9 @@ function sendMessageWhatsap(txtResponse , number){
 
 async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'){
 
-    let vector = [];
+    const messageList = {};
     if(type == 'Categorias'){
-        vector = await dbService.getAllCategories();
-
-        // recorro el vector y lo parseo para wpp asi id y title
-        vector = vector.map((item) => {
-            return {
-                id: item.categoria_id,
-                title: item.categoria_nombre,
-                description: ""
-            };
-        });
+        messageList = await utilityService.obtenerListadoCategoriasWPP();
     };
 
     const data = JSON.stringify({
@@ -65,20 +57,20 @@ async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'
             type: "list",
             header: {
                 type: "text",
-                text: "Categorias de Polivet"
+                text: messageList.header_txt
             },
             body: {
-                text: "Por favor selecciona el servicio que deseas."
+                text: messageList.body_txt
             },
             footer: {
-                text: "Gracias por elegir Polivet."
+                text: messageList.footer_txt
             },
             action: {
-                button: "Categorias",
+                button: messageList.button_txt,
                 sections: [
                     {
                         "title": type.toUpperCase(),
-                        "rows": vector
+                        "rows": messageList.list
                     },
                     // {
                     //     "id": "<LIST_SECTION_1_ROW_1_ID>",
