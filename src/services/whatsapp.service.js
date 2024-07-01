@@ -43,7 +43,7 @@ function sendMessageWhatsap(txtResponse , number){
 
 async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'){
 
-    const messageList = {};
+    let messageList = {};
     if(type == 'Categorias'){
         messageList = await utilityService.obtenerListadoCategoriasWPP();
     };
