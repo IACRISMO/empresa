@@ -49,7 +49,7 @@ const  ReceiveMessage = (req , res) => {
         let parseMessage = {
             text: '',
             opcion : { id: '', title: ''},
-            typeMessage
+            typeMessage : '',
         };
         parseMessage.typeMessage = messages['type'];
 
