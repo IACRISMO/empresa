@@ -138,7 +138,11 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                 };
             };
             
-            whatsappService.sendMessageListWhatsap(response, number, type , opcion.id);
+            if(respuesta){
+                whatsappService.sendMessageWhatsap(response, number);
+            }else{
+                whatsappService.sendMessageListWhatsap(response, number, type , opcion.id);
+            };
         };
 
     }else{
