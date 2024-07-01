@@ -130,7 +130,7 @@ async function procesarMensajeCliente(parseMessage, tipo_message) {
         }else{
             
             if (['1', '2', '3', '5'].includes(parseMessage.opcion.id)){
-               response.servicioOrProducto = INSERT_PRODUCT
+               response.servicioOrProducto = 'INSERT_PRODUCT'
             }else{
                response.servicioOrProducto = 'INSERT_SERVICIO';
             };
