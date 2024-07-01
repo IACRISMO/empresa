@@ -78,6 +78,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                 if(!lastConvesation.categoria_id){
                     respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
                     if(!respuesta.error){
+                        console.log('[INSERT_CATEGORIA] -  no tenemos error, guardamos la conversacion');
                         // guardamos la conversacion
                         await dbService.createConversation({ 
                             clienteId: cliente.cliente_id , 
@@ -102,6 +103,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             if(lastConvesation.conversacion_tipo == utilityService.INSERT_SERVICIO){
                 // Validamos si el cliente selecciono un servicio
                 if(!lastConvesation.servicio_id){
+                    console.log('[INSERT_SERVICIO] -  no tenemos error, guardamos la conversacion');
                     respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
                     if(!respuesta.error){
                         // guardamos la conversacion
@@ -123,6 +125,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             if(lastConvesation.conversacion_tipo == utilityService.INSERT_PRODUCTO){
                 // Validamos si el cliente selecciono un producto
                 if(!lastConvesation.producto_id){
+                    console.log('[INSERT_PRODUCTO] -  no tenemos error, guardamos la conversacion');
                     respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
                     if(!respuesta.error){
                         // guardamos la conversacion
