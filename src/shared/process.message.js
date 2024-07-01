@@ -86,7 +86,7 @@ async function process(text, number , ia = 'Gemini') {
 
 async function proccessWelcome(text, ia) {
 
-    const response = null;
+    let response = null;
 
     // consultamos a gemini
     if(ia == 'Gemini'){
