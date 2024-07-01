@@ -174,7 +174,7 @@ async function getConversationsByClientId(clienteId) {
 // Obtenemos el ultimo tipo o estado de conversacion que tuvo el cliente
 async function getLastConversationByClientId(clienteId) {
     let  response = null;
-    let vector = await prisma.$queryRaw`SELECT * FROM conversacion WHERE cliente_id = ${clienteId} AND conversacion_tipo IS NOT NULL ORDER BY cliente_fechacreacion DESC LIMIT 1`;
+    let vector = await prisma.$queryRaw`SELECT * FROM conversacion WHERE cliente_id = ${clienteId} AND conversacion_tipo IS NOT NULL ORDER BY conversacion_fechacreacion DESC LIMIT 1`;
     if(vector && vector.length > 0){
         response = vector[0];
     };
