@@ -53,11 +53,11 @@ async function processByCliente(text, number , ia = 'Gemini') {
     }else{
 
         // Pedimos a ia que nos de un mensaje de bienvenida
-        response = await proccessWelcome(text, number , ia);
+        response = await proccessWelcome(text , ia);
 
         // Iniciamos creando nuestro cliente
         cliente = await dbService.createClient({cliente_telefono: number});
-        console.log('cliente creado:', cliente);
+        // console.log('cliente creado:', cliente);
         await dbService.createConversation({ clienteId: cliente.cliente_id , conversacion_mensaje: text,});
         whatsappService.sendMessageWhatsap(response, number);
     };

@@ -69,22 +69,17 @@ async function obtenerListadoCategoriasWPP() {
 module.exports = {
     esNombreValido,
     esDniValido,
-    obtenerListadoCategoriasWPP
-};
-
-// Mensajes Predeterminados posibles
-module.exports = {
+    obtenerListadoCategoriasWPP,
+    // Mensajes Predeterminados posibles
     MENSAJE_BIENVENIDA: '¿Que tipo de servicio necesitas?',
     MENSAJE_NOMBRE_INVALIDO: 'Nombre invalido, por favor ingrese un nombre valido.',
     MENSAJE_DNI_INVALIDO: 'DNI invalido, por favor ingrese un DNI valido.',
-    MENSAJE_CONSULTA: 'Ahora puedo ayudarte con tu consulta, ¿qué tipo de servicio necesitas?'
-};
-
-// Estados posibles de la conversación
-module.exports = {
+    MENSAJE_CONSULTA: 'Ahora puedo ayudarte con tu consulta, ¿qué tipo de servicio necesitas?',
+    // Estados posibles de la conversación
     REGISTRO: 1,
     SERVICIO: 2,
     PRODUCTO : 3,
     PAGO: 4,
+
 };
 
