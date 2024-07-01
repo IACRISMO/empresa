@@ -128,7 +128,8 @@ async function procesarMensajeCliente(parseMessage, tipo_message) {
             response.message = 'Por favor selecciona una categoria.';
             response.error = true;
         }else{
-            if(parseMessage.opcion.id.includes(['1','2','3','5'])){
+            
+            if (['1', '2', '3', '5'].includes(parseMessage.opcion.id)){
                response.servicioOrProducto = INSERT_PRODUCT
             }else{
                response.servicioOrProducto = INSERT_SERVICIO;
