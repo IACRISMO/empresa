@@ -73,6 +73,8 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             let respuesta = null;
             let type = 'Categorias';
 
+            console.log('lastConvesation:', lastConvesation);
+
             if(lastConvesation.conversacion_tipo == utilityService.INSERT_CATEGORIA){
                 // Validamos si el cliente selecciono una categoria
                 if(!lastConvesation.categoria_id){
