@@ -49,11 +49,11 @@ async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'
     };
 
     if(type == 'Servicios'){
-        messageList = await utilityService.obtenerListadoServiciosWPP();
+        messageList = await utilityService.obtenerListadoServiciosWPP(categoria_id);
     };
 
     if(type == 'Productos'){
-        messageList = await utilityService.obtenerListadoProductosWPP();
+        messageList = await utilityService.obtenerListadoProductosWPP(categoria_id);
     };
 
     const data = JSON.stringify({
