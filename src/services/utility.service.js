@@ -44,8 +44,8 @@ function esDniValido(numero) {
 
 // Función para obtener un listado de categorías
 async function obtenerListadoCategoriasWPP() {
-    const vector = [];
-    const response = {
+    let vector = [];
+    let response = {
         header_txt: 'Polivet',
         body_txt: 'Por favor selecciona el servicio que deseas.',
         footer_txt: 'Gracias por elegir Polivet.',
