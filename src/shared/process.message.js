@@ -8,6 +8,8 @@ async function processByCliente(text, number , ia = 'Gemini') {
     let response = null;
     let cliente = null;
     let procesoRegistro = false;
+    let procesoRegistro_ = false;
+    let procesoConsulta = false;
 
     try {
         cliente = await dbService.getClientByPhone(number);
@@ -32,6 +34,7 @@ async function processByCliente(text, number , ia = 'Gemini') {
         // validamos si el cliente ya tiene dni
         if(!cliente.cliente_dni && cliente.cliente_nombre){
             procesoRegistro = true;
+            procesoRegistro_ = true;
             if(utilityService.esDniValido(text)){
                 await dbService.updateClient(cliente.cliente_id, { ...cliente , cliente_dni: text});
                 response = "¡Muchas gracias "+cliente.cliente_nombre+" , ahora puedo ayudarte con tu consulta , que tipo de servicio necesitas?.";
@@ -46,6 +49,9 @@ async function processByCliente(text, number , ia = 'Gemini') {
         // enviamos mensaje
         if(procesoRegistro){
             whatsappService.sendMessageWhatsap(response, number);
+
+            // Si validamos todos los datos le enviamos el listado de categorias
+            if(procesoRegistro_)
             whatsappService.sendMessageListWhatsap(response, number);
         } 
         else whatsappService.sendMessageListWhatsap(response, number);
