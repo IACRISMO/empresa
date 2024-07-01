@@ -120,10 +120,10 @@ async function procesarMensajeCliente(parseMessage, tipo_message) {
     let response = {
         error: false,
         message: '',
-        servicioOrProducto: INSERT_SERVICIO,
+        servicioOrProducto: 'INSERT_SERVICIO',
     };
 
-    if(tipo_message ===  INSERT_CATEGORIA){
+    if(tipo_message ===  'INSERT_CATEGORIA'){
         if(parseMessage.typeMessage !== 'interactive'){
             response.message = 'Por favor selecciona una categoria.';
             response.error = true;
@@ -132,12 +132,12 @@ async function procesarMensajeCliente(parseMessage, tipo_message) {
             if (['1', '2', '3', '5'].includes(parseMessage.opcion.id)){
                response.servicioOrProducto = INSERT_PRODUCT
             }else{
-               response.servicioOrProducto = INSERT_SERVICIO;
+               response.servicioOrProducto = 'INSERT_SERVICIO';
             };
         }
     };
 
-    if(tipo_message ===  INSERT_SERVICIO){
+    if(tipo_message ===  'INSERT_SERVICIO'){
         if(parseMessage.typeMessage !== 'interactive'){
             response.message = 'Por favor selecciona un servicio.';
             response.error = true;
@@ -145,7 +145,7 @@ async function procesarMensajeCliente(parseMessage, tipo_message) {
     };
 
 
-    if(tipo_message ===  INSERT_PRODUCTO){
+    if(tipo_message ===  'INSERT_PRODUCTO'){
         if(parseMessage.typeMessage !== 'interactive'){
             response.message = 'Por favor selecciona un producto.';
             response.error = true;
