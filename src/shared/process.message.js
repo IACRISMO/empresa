@@ -118,6 +118,8 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                             servicio_id: (opcion.id*1),
                             conversacion_tipo: utilityService.INSERT_PAGO,
                         });
+                        const servicio = dbService.getServiceById(opcion.id*1);
+                        response = `Entonces desea ${servicio.servicio_nombre} , el precio para este servicio es de S/ 25, puede cancelar con yape, puede enviarnos el comprobante de pago por este medio.`;
                     }else{
                         response = respuesta.message;
                     };
@@ -138,13 +140,58 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                             clienteId: cliente.cliente_id , 
                             conversacion_mensaje: text,
                             producto_id: (opcion.id*1),
+                            conversacion_tipo: utilityService.INSERT_CANTIDAD,
+                        });
+
+                        const producto = dbService.getProductById(opcion.id*1);
+                        response = `¿Cuántos ${producto.producto_nombre} deseas?, recuerda que su precio por unidad es S/ ${producto.producto_precio}.`;
+                    }else{
+                        response = respuesta.message;
+                    };
+                };
+            };
+
+            // Si escogimos un producto debemos ingresar la cantidad
+            if(lastConvesation.conversacion_tipo == 'INSERT_CANTIDAD'){
+                // Validamos si el cliente selecciono una cantidad
+                if(!lastConvesation.cantidad){
+                    console.log('[INSERT_CANTIDAD] -  no tenemos error, guardamos la conversacion');
+                    respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
+                    if(!respuesta.error){
+                        // guardamos la conversacion
+                        await dbService.createConversation({ 
+                            clienteId: cliente.cliente_id , 
+                            conversacion_mensaje: text,
+                            cantidad: (text*1),
+                            conversacion_tipo: utilityService.INSERT_PAGO,
+                        });
+                        const producto = dbService.getProductById(lastConvesation.producto_id);
+                        response = `Entonces desea ${lastConvesation.cantidad} ${producto.producto_nombre} , el precio para este producto es de S/ ${producto.producto_precio} por unidad, puede cancelar con yape, puede enviarnos el comprobante de pago por este medio.`;
+                    }else{
+                        response = respuesta.message;
+                    };
+                };
+            };
+
+            // validamos si el cliente selecciono un metodo de pago
+            if(lastConvesation.conversacion_tipo == 'INSERT_PAGO'){
+                // Validamos si el cliente selecciono un metodo de pago
+                if(!lastConvesation.metodo_pago){
+                    console.log('[INSERT_PAGO] -  no tenemos error, guardamos la conversacion');
+                    respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
+                    if(!respuesta.error){
+                        // guardamos la conversacion
+                        await dbService.createConversation({ 
+                            clienteId: cliente.cliente_id , 
+                            conversacion_mensaje: text,
+                            metodo_pago: opcion.title,
                             conversacion_tipo: utilityService.INSERT_PAGO,
                         });
                     }else{
                         response = respuesta.message;
                     };
                 };
-            };
+            }
             
             if(response){
                 whatsappService.sendMessageWhatsap(response, number);

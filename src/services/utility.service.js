@@ -144,13 +144,36 @@ async function procesarMensajeCliente(parseMessage, tipo_message) {
         };
     };
 
-
     if(tipo_message ===  'INSERT_PRODUCTO'){
         if(parseMessage.typeMessage !== 'interactive'){
             response.message = 'Por favor selecciona un producto.';
             response.error = true;
         };
     };
+
+    if(tipo_message ===  'INSERT_CANTIDAD'){
+        if(parseMessage.typeMessage == 'text'){
+            // Validamos si no es valor numerico positivo mayor de 0 
+            if( !parseInt(parseMessage.text) || parseInt(parseMessage.text) < 0 ){
+                response.message = 'Por favor ingresa una cantidad valida.';
+                response.error = true;
+            }else{
+
+            }
+        };
+    }
+
+    if(tipo_message ===  'INSERT_PAGO'){
+        if(parseMessage.typeMessage == 'text'){
+            // Validamos si no es valor numerico positivo mayor de 0 
+            if( !parseInt(parseMessage.text) || parseInt(parseMessage.text) < 0 ){
+                response.message = 'Por favor ingresa una cantidad valida.';
+                response.error = true;
+            }else{
+
+            }
+        };
+    }
 
     return response;
 };
@@ -172,6 +195,7 @@ module.exports = {
     INSERT_CATEGORIA: 'INSERT_CATEGORIA',
     INSERT_SERVICIO: 'INSERT_SERVICIO',
     INSERT_PRODUCTO: 'INSERT_PRODUCTO',
+    INSERT_CANTIDAD: 'INSERT_CANTIDAD',
     INSERT_PAGO: 'INSERT_PAGO',
 
     // Estados posibles de la conversación

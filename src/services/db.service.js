@@ -94,6 +94,15 @@ async function getAllServices() {
     return await prisma.servicio.findMany();
 };
 
+// Obtener servicios por id
+async function getServiceById(id) {
+    return await prisma.servicio.findUnique({
+        where: {
+            id: parseInt(id),
+        },
+    });
+};
+
 // Obtenemos servicios por categoria_id
 async function getServicesByCategoryId(categoria_id) {
     let vector = await prisma.$queryRaw`SELECT * FROM servicio WHERE categoria_id = ${categoria_id} ORDER BY servicio_id ASC`;
