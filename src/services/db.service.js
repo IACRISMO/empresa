@@ -95,12 +95,9 @@ async function getAllServices() {
 };
 
 // Obtener servicios por id
-async function getServiceById(id) {
-    return await prisma.servicio.findUnique({
-        where: {
-            servicio_id: parseInt(id),
-        },
-    });
+async function getServiceById(servicio_id) {
+    let vector = await prisma.$queryRaw`SELECT * FROM servicio WHERE servicio_id = ${servicio_id}`;
+    return vector && vector.length > 0 ? vector[0] : null;
 };
 
 // Obtenemos servicios por categoria_id
@@ -130,12 +127,9 @@ async function getAllProducts() {
 };
 
 // Obtenemos productos por id
-async function getProductById(id) {
-    return await prisma.producto.findUnique({
-        where: {
-            producto_id: parseInt(id),
-        },
-    });
+async function getProductById(producto_id) {
+    let vector = await prisma.$queryRaw`SELECT * FROM producto WHERE producto_id = ${producto_id} limit 1`;
+    return vector && vector.length > 0 ? vector[0] : null;
 };
 
 /* CONVERSACION */
