@@ -98,7 +98,7 @@ async function getAllServices() {
 async function getServiceById(id) {
     return await prisma.servicio.findUnique({
         where: {
-            id: parseInt(id),
+            servicio_id: parseInt(id),
         },
     });
 };
@@ -133,7 +133,7 @@ async function getAllProducts() {
 async function getProductById(id) {
     return await prisma.producto.findUnique({
         where: {
-            id: parseInt(id),
+            producto_id: parseInt(id),
         },
     });
 };
@@ -215,4 +215,5 @@ module.exports = {
     getLastConversationByClientId,
     getServicesByCategoryId,
     getProductsByCategoryId,
+    getServiceById
 };
