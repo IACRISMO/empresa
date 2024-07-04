@@ -128,7 +128,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                             conversacion_tipo: utilityService.INSERT_PAGO,
                         });
                         console.log('opcion:', opcion);
-                        const servicio = dbService.getServiceById(opcion.id*1);
+                        const servicio = await dbService.getServiceById(opcion.id*1);
                         response = `Entonces desea ${servicio.servicio_nombre} , el precio para este servicio es de S/ 25, puede cancelar con yape, puede enviarnos el comprobante de pago por este medio.`;
                     }else{
                         response = respuesta.message;
@@ -154,7 +154,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                         });
 
                         console.log('opcion:', opcion);
-                        const producto = dbService.getProductById(opcion.id*1);
+                        const producto = await dbService.getProductById(opcion.id*1);
                         response = `¿Cuántos ${producto.producto_nombre} deseas?, recuerda que su precio por unidad es S/ ${producto.producto_precio}.`;
                     }else{
                         response = respuesta.message;
