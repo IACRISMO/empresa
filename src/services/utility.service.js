@@ -164,14 +164,9 @@ async function procesarMensajeCliente(parseMessage, tipo_message) {
     }
 
     if(tipo_message ===  'INSERT_PAGO'){
-        if(parseMessage.typeMessage == 'text'){
-            // Validamos si no es valor numerico positivo mayor de 0 
-            if( !parseInt(parseMessage.text) || parseInt(parseMessage.text) < 0 ){
-                response.message = 'Por favor ingresa una cantidad valida.';
-                response.error = true;
-            }else{
-
-            }
+        if(parseMessage.typeMessage !== 'image'){
+            response.message = 'Por favor envia una imagen de tu pago.';
+            response.error = true;
         };
     }
 
@@ -192,6 +187,7 @@ module.exports = {
     MENSAJE_DNI_INVALIDO: 'DNI invalido, por favor ingrese un DNI valido.',
     MENSAJE_CONSULTA: 'Ahora puedo ayudarte con tu consulta, ¿qué tipo de servicio necesitas?',
     // Tipo de mensajes insertados por sistema
+    INIT_STATE: 'INIT_STATE',
     INSERT_CATEGORIA: 'INSERT_CATEGORIA',
     INSERT_SERVICIO: 'INSERT_SERVICIO',
     INSERT_PRODUCTO: 'INSERT_PRODUCTO',

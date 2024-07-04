@@ -2,6 +2,8 @@ const whatsappService = require('../services/whatsapp.service');
 const chatGptService = require('../services/ia.service');
 const dbService = require('../services/db.service');
 const utilityService = require('../services/utility.service');
+const path = require('path');
+const fs = require('fs');
 
 async function processByCliente(parseMessage, number , ia = 'Gemini') {
 
@@ -71,9 +73,16 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             // validamos tipo de conversacion por la ultima conversacion
             let lastConvesation = await dbService.getLastConversationByClientId(cliente.cliente_id);
             let respuesta = null;
+            let enviarCategoria = false;
             let type = 'Categorias';
 
             console.log('lastConvesation:', lastConvesation);
+
+            // Para empezar el flujo de conversacion nuevamente
+            if(lastConvesation.conversacion_tipo == 'INIT_STATE'){
+                response = "¿Que tipo de servicio necesitas?";
+                enviarCategoria = true;
+            };
 
             if(lastConvesation.conversacion_tipo == 'INSERT_CATEGORIA'){
                 // Validamos si el cliente selecciono una categoria
@@ -166,7 +175,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                             conversacion_tipo: utilityService.INSERT_PAGO,
                         });
                         const producto = dbService.getProductById(lastConvesation.producto_id);
-                        response = `Entonces desea ${lastConvesation.cantidad} ${producto.producto_nombre} , el precio para este producto es de S/ ${producto.producto_precio} por unidad, puede cancelar con yape, puede enviarnos el comprobante de pago por este medio.`;
+                        response = `Entonces desea ${lastConvesation.cantidad} ${producto.producto_nombre} , el precio para este producto es de S/ ${((producto.producto_precio*1) * lastConvesation.cantidad)} por unidad, puede cancelar con yape, puede enviarnos el comprobante de pago por este medio.`;
                     }else{
                         response = respuesta.message;
                     };
@@ -180,12 +189,15 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                     console.log('[INSERT_PAGO] -  no tenemos error, guardamos la conversacion');
                     respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
                     if(!respuesta.error){
+                        // Capturamos la imgen de pago y la guardamos
+                        response = "¡Gracias por tu compra! , tu pedido esta pagado.";
+
                         // guardamos la conversacion
                         await dbService.createConversation({ 
                             clienteId: cliente.cliente_id , 
-                            conversacion_mensaje: text,
+                            conversacion_mensaje: 'Imagen de pago',
                             metodo_pago: opcion.title,
-                            conversacion_tipo: utilityService.INSERT_PAGO,
+                            conversacion_tipo: utilityService.INIT_STATE,
                         });
                     }else{
                         response = respuesta.message;
@@ -195,6 +207,11 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             
             if(response){
                 whatsappService.sendMessageWhatsap(response, number);
+
+                if(enviarCategoria){
+                    whatsappService.sendMessageListWhatsap(response, number);
+                };
+
             }else{
                 whatsappService.sendMessageListWhatsap(response, number, type , (opcion.id*1));
             };
