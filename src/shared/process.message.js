@@ -75,7 +75,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
 
             console.log('lastConvesation:', lastConvesation);
 
-            if(lastConvesation.conversacion_tipo == utilityService.INSERT_CATEGORIA){
+            if(lastConvesation.conversacion_tipo == 'INSERT_CATEGORIA'){
                 // Validamos si el cliente selecciono una categoria
                 if(!lastConvesation.categoria_id){
                     respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
@@ -102,7 +102,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             };
 
             // validamos si el cliente selecciono un servicio
-            if(lastConvesation.conversacion_tipo == utilityService.INSERT_SERVICIO){
+            if(lastConvesation.conversacion_tipo == 'INSERT_SERVICIO'){
                 // Validamos si el cliente selecciono un servicio
                 if(!lastConvesation.servicio_id){
                     console.log('[INSERT_SERVICIO] -  no tenemos error, guardamos la conversacion');
@@ -124,7 +124,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             };
 
             // validamos si el cliente selecciono un producto
-            if(lastConvesation.conversacion_tipo == utilityService.INSERT_PRODUCTO){
+            if(lastConvesation.conversacion_tipo == 'INSERT_PRODUCTO'){
                 // Validamos si el cliente selecciono un producto
                 if(!lastConvesation.producto_id){
                     console.log('[INSERT_PRODUCTO] -  no tenemos error, guardamos la conversacion');
