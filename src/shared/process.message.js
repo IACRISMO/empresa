@@ -82,6 +82,12 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             if(lastConvesation.conversacion_tipo == 'INIT_STATE'){
                 response = "¿Que tipo de servicio necesitas?";
                 enviarCategoria = true;
+
+                await dbService.createConversation({ 
+                    clienteId: cliente.cliente_id , 
+                    conversacion_mensaje: text,
+                    conversacion_tipo: utilityService.INSERT_CATEGORIA,
+                });
             };
 
             if(lastConvesation.conversacion_tipo == 'INSERT_CATEGORIA'){
