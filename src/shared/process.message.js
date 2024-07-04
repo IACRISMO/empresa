@@ -176,7 +176,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                             cantidad: (text*1),
                             conversacion_tipo: utilityService.INSERT_PAGO,
                         });
-                        const producto = dbService.getProductById(lastConvesation.producto_id);
+                        const producto = await dbService.getProductById(lastConvesation.producto_id);
                         response = `Entonces desea ${lastConvesation.cantidad} ${producto.producto_nombre} , el precio para este producto es de S/ ${((producto.producto_precio*1) * lastConvesation.cantidad)} por unidad, puede cancelar con yape, puede enviarnos el comprobante de pago por este medio.`;
                     }else{
                         response = respuesta.message;
