@@ -49,7 +49,7 @@ async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'
     };
 
     if(type == 'Servicios'){
-        console.log('entramos a servicios')
+        console.log('entramos a servicios', categoria_id)
         messageList = await utilityService.obtenerListadoServiciosWPP(categoria_id);
     };
 
