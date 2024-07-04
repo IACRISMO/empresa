@@ -115,7 +115,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                         await dbService.createConversation({ 
                             clienteId: cliente.cliente_id , 
                             conversacion_mensaje: text,
-                            servicio_id: opcion.id,
+                            servicio_id: opcion.id*1,
                             conversacion_tipo: utilityService.INSERT_PRODUCTO,
                         });
                     }else{
@@ -137,7 +137,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                         await dbService.createConversation({ 
                             clienteId: cliente.cliente_id , 
                             conversacion_mensaje: text,
-                            producto_id: opcion.id,
+                            producto_id: opcion.id*1,
                             conversacion_tipo: utilityService.INSERT_PRODUCTO,
                         });
                     }else{
