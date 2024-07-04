@@ -79,7 +79,10 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                 // Validamos si el cliente selecciono una categoria
                 if(!lastConvesation.categoria_id){
                     respuesta = await utilityService.procesarMensajeCliente(parseMessage, lastConvesation.conversacion_tipo);
+                   
                     if(!respuesta.error){
+                        console.log('respuesta:', respuesta);
+                        console.log('opcion:', opcion);
                         console.log('[INSERT_CATEGORIA] -  no tenemos error, guardamos la conversacion');
                         // guardamos la conversacion
                         await dbService.createConversation({ 
