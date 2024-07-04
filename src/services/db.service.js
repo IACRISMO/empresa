@@ -25,7 +25,8 @@ async function getAllClients() {
 // Actualizamos cliente
 async function updateClient(cliente_id, cliente) {
     // Actualizo con query directa
-    return await prisma.$queryRaw`UPDATE cliente SET cliente_nombre = ${cliente?.cliente_nombre}, cliente_apellidos = ${cliente?.cliente_apellido}, cliente_dni = ${cliente?.cliente_dni}, cliente_telefono = ${cliente?.cliente_telefono} WHERE cliente_id = ${cliente_id}`;
+    // return await prisma.$queryRaw`UPDATE cliente SET cliente_nombre = ${cliente?.cliente_nombre}, cliente_apellidos = ${cliente?.cliente_apellido}, cliente_dni = ${cliente?.cliente_dni}, cliente_telefono = ${cliente?.cliente_telefono} WHERE cliente_id = ${cliente_id}`;
+    return await prisma.$queryRaw`UPDATE cliente SET cliente_nombre = ${cliente?.cliente_nombre}, cliente_dni = ${cliente?.cliente_dni}, cliente_telefono = ${cliente?.cliente_telefono} WHERE cliente_id = ${cliente_id}`;
 
     // return await prisma.cliente.update({
     //     where: {
@@ -38,7 +39,8 @@ async function updateClient(cliente_id, cliente) {
 // creamos cliente en bd
 async function createClient(cliente) {
     // creo con query directa
-    await prisma.$queryRaw`INSERT INTO cliente (cliente_nombre, cliente_apellidos,cliente_dni,cliente_fechacreacion, cliente_telefono) VALUES (${cliente?.cliente_nombre}, ${cliente?.cliente_apellido},${cliente?.cliente_dni},${new Date()},${cliente?.cliente_telefono})`;
+    // await prisma.$queryRaw`INSERT INTO cliente (cliente_nombre, cliente_apellidos,cliente_dni,cliente_fechacreacion, cliente_telefono) VALUES (${cliente?.cliente_nombre}, ${cliente?.cliente_apellido},${cliente?.cliente_dni},${new Date()},${cliente?.cliente_telefono})`;
+    await prisma.$queryRaw`INSERT INTO cliente (cliente_nombre,cliente_dni,cliente_fechacreacion, cliente_telefono) VALUES (${cliente?.cliente_nombre},${cliente?.cliente_dni},${new Date()},${cliente?.cliente_telefono})`;
 
      // Obtener el ID del cliente recién insertado
     const result = await prisma.$queryRaw`
