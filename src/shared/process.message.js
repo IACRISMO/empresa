@@ -73,7 +73,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             let respuesta = null;
             let type = 'Categorias';
 
-            // console.log('lastConvesation:', lastConvesation);
+            console.log('lastConvesation:', lastConvesation);
 
             if(lastConvesation.conversacion_tipo == 'INSERT_CATEGORIA'){
                 // Validamos si el cliente selecciono una categoria
@@ -116,7 +116,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                             clienteId: cliente.cliente_id , 
                             conversacion_mensaje: text,
                             servicio_id: (opcion.id*1),
-                            conversacion_tipo: utilityService.INSERT_PRODUCTO,
+                            conversacion_tipo: utilityService.INSERT_PAGO,
                         });
                     }else{
                         response = respuesta.message;
@@ -138,7 +138,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
                             clienteId: cliente.cliente_id , 
                             conversacion_mensaje: text,
                             producto_id: (opcion.id*1),
-                            conversacion_tipo: utilityService.INSERT_PRODUCTO,
+                            conversacion_tipo: utilityService.INSERT_PAGO,
                         });
                     }else{
                         response = respuesta.message;
