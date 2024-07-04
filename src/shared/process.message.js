@@ -149,7 +149,7 @@ async function processByCliente(parseMessage, number , ia = 'Gemini') {
             if(response){
                 whatsappService.sendMessageWhatsap(response, number);
             }else{
-                whatsappService.sendMessageListWhatsap(response, number, type , opcion.id);
+                whatsappService.sendMessageListWhatsap(response, number, type , (opcion.id*1));
             };
         };
 
