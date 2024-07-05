@@ -111,6 +111,7 @@ async function obtenerListadoProductosWPP(categoria_id) {
             description: ""
         };
     });
+    vector.length = vector.length > 10 ? 10 : vector.length;
     response.list = vector;
     return response;
 };
