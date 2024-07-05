@@ -55,7 +55,9 @@ async function sendMessageListWhatsap(txtResponse , number , type = 'Categorias'
     };
 
     if(type == 'Productos'){
+        console.log('entramos a productos', categoria_id)
         messageList = await utilityService.obtenerListadoProductosWPP(categoria_id);
+        console.log('messageList', messageList);
     };
 
     const data = JSON.stringify({
